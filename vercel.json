@@ -1,5 +1,3 @@
-// my-update-server/vercel.json
-
 {
   "version": 2,
   "builds": [
@@ -12,6 +10,11 @@
     {
       "src": "/api/(.*)",
       "dest": "api/server.js"
+    },
+    {
+      "src": "/downloads/(.*)",
+      "dest": "/downloads/$1"
     }
   ]
 }
+
