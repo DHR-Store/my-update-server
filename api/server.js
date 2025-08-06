@@ -10,7 +10,7 @@ app.use(express.json());
 
 const releases = [
   {
-    version: "1.0.2",
+    version: "3.2.5", //latest
     releaseNotes: "Exciting new features!\n- Added dark mode support\n- Improved performance for large lists",
     downloadUrl: "https://your-vercel-domain.vercel.app/downloads/your-app-v1.0.2.apk", // 🔁 Update this after deploy
     fileName: "your-app-v1.0.2.apk",
