@@ -11,7 +11,7 @@ app.use(express.json());
 const releases = [
   {
     version: "3.2.5", //latest
-    releaseNotes: "Exciting new features!\n- Added dark mode support\n- Improved performance for large lists",
+    releaseNotes: "Exciting new features!\n- Added dark mode support\n- Improved performance for large lists\n-By Gojo",
     downloadUrl: "https://your-vercel-domain.vercel.app/downloads/your-app-v1.0.2.apk", // 🔁 Update this after deploy
     fileName: "your-app-v1.0.2.apk",
     publishedAt: "2025-08-06T12:00:00Z"
