@@ -13,7 +13,7 @@ app.use(express.json());
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "2.3.5",
+    version: "3.2.5",
     releaseNotes: "Exciting new features!\n- Added dark mode support\n- Improved performance for large lists",
     downloadUrl: "https://your-vercel-app-domain.vercel.app/downloads/your-app-v1.0.2.apk",
     fileName: "your-app-v1.0.2.apk",
