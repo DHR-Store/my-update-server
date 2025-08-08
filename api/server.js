@@ -51,7 +51,7 @@ app.post('/api/send-push-notification', async (req, res) => {
   const notification = {
     to: pushToken,
     title: title,
-    body: "This is a new message from your Vercel backend!", // <-- The hardcoded message is placed here
+    body: "hello", // <-- The hardcoded message is placed here
     sound: 'default',
     data: { someData: 'goes here' },
   };
