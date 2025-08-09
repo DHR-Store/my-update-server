@@ -9,7 +9,7 @@ app.use(express.json());
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.2.5",
+    version: "3.2.6",
     releaseNotes: "Exciting new features!\n- Added dark mode support\n- Improved performance for large lists",
     // This downloadUrl has been updated to be a direct link to an APK file.
     // The previous Sendspace link was a webpage, which caused the download to fail.
