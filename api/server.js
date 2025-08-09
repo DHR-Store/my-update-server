@@ -11,7 +11,7 @@ const releases = [
   {
     version: "3.2.5",
     releaseNotes: "Exciting new features!\n- Added dark mode support\n- Improved performance for large lists",
-    downloadUrl: "https://your-vercel-app-domain.vercel.app/downloads/your-app-v1.0.2.apk",
+    downloadUrl: "https://www.sendspace.com/file/etyk00",
     fileName: "your-app-v1.0.2.apk",
     publishedAt: "2025-08-06T12:00:00Z"
   },
