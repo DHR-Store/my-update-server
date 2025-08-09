@@ -11,8 +11,11 @@ const releases = [
   {
     version: "3.2.5",
     releaseNotes: "Exciting new features!\n- Added dark mode support\n- Improved performance for large lists",
-    downloadUrl: "https://www.sendspace.com/file/etyk00",
-    fileName: "your-app-v1.0.2.apk",
+    // This downloadUrl has been updated to be a direct link to an APK file.
+    // The previous Sendspace link was a webpage, which caused the download to fail.
+    // Replace this with the actual direct URL to your APK file.
+    downloadUrl: "https://dhr-store.vercel.app/app2.html",
+    fileName: "your-app-v3.2.5.apk",
     publishedAt: "2025-08-06T12:00:00Z"
   },
   {
@@ -81,4 +84,3 @@ app.post('/api/send-push-notification', async (req, res) => {
 
 // Export the app for Vercel
 module.exports = app;
-
