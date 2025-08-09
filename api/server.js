@@ -16,7 +16,7 @@ const releases = [
   {
     version: "3.2.6",
     releaseNotes: "Exciting new features!\n- Added dark mode support\n- Improved performance for large lists",
-    // The downloadUrl is now set to your webpage link to open the page on update click.
+    // The downloadUrl is now set to the new webpage link.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
     publishedAt: "2025-08-06T12:00:00Z"
