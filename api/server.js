@@ -53,7 +53,7 @@ app.post('/api/send-push-notification', async (req, res) => {
   const notification = {
     to: pushToken,
     title: title,
-    body: "Hello app user, how was the day going..hkk", // <-- The updated hardcoded message is placed here
+    body: "Hello app user, how was the day goingj..hkk", // <-- The updated hardcoded message is placed here
     sound: 'default',
     // Add the channelId to ensure the notification is displayed on Android
     // This channelId must match the one defined in your app's code (e.g., in About.tsx)
