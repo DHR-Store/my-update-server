@@ -6,14 +6,17 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+// Add a root endpoint to prevent 404 errors on the base URL
+app.get('/', (req, res) => {
+  res.send('<h1>Welcome to the Update API!</h1><p>Please use the /api/latest-release or /api/send-push-notification endpoints.</p>');
+});
+
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.2.6",
+    version: "3.2.5",
     releaseNotes: "Exciting new features!\n- Added dark mode support\n- Improved performance for large lists",
-    // This downloadUrl has been updated to be a direct link to an APK file.
-    // The previous Sendspace link was a webpage, which caused the download to fail.
-    // Replace this with the actual direct URL to your APK file.
+    // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
     publishedAt: "2025-08-06T12:00:00Z"
