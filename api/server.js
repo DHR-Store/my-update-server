@@ -1,9 +1,5 @@
 // my-update-server/server.js
 
-// api/server.js
-
-// my-update-server/server.js
-
 const express = require('express');
 const app = express();
 
@@ -38,7 +34,7 @@ app.get('/api/latest-release', (req, res) => {
   }
 });
 
-// New endpoint to send a push notification with a hardcoded message
+// New endpoint to send a push notification with an updated hardcoded message
 app.post('/api/send-push-notification', async (req, res) => {
   const { pushToken, title } = req.body;
 
@@ -51,7 +47,7 @@ app.post('/api/send-push-notification', async (req, res) => {
   const notification = {
     to: pushToken,
     title: title,
-    body: "helle", // <-- The hardcoded message is placed here
+    body: "Hello app user, how was the day going?", // <-- The updated hardcoded message is placed here
     sound: 'default',
     data: { someData: 'goes here' },
   };
@@ -85,3 +81,4 @@ app.post('/api/send-push-notification', async (req, res) => {
 
 // Export the app for Vercel
 module.exports = app;
+
