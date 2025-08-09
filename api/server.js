@@ -3,20 +3,13 @@
 const express = require('express');
 const app = express();
 
-// Middleware to parse JSON bodies
 app.use(express.json());
-
-// Add a root endpoint to prevent 404 errors on the base URL
-app.get('/', (req, res) => {
-  res.send('<h1>Welcome to the Update API!</h1><p>Please use the /api/latest-release or /api/send-push-notification endpoints.</p>');
-});
 
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
     version: "3.2.6",
     releaseNotes: "Exciting new features!\\n- Added dark mode support\\n- Improved performance for large lists",
-    // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
     publishedAt: "2025-08-06T12:00:00Z"
@@ -30,39 +23,42 @@ const releases = [
   }
 ];
 
-// Endpoint to get the latest release information
+app.get('/', (req, res) => {
+  res.send('<h1>Welcome to the Update API!</h1><p>Please use the /api/latest-release or /api/send-push-notification endpoints.</p>');
+});
+
 app.get('/api/latest-release', (req, res) => {
   console.log('Request received for /api/latest-release');
   if (releases.length > 0) {
-    res.json(releases[0]); // Return the latest release (first item in the array)
+    res.json(releases[0]);
   } else {
     res.status(404).json({ error: 'No releases found' });
   }
 });
 
-// New endpoint for sending push notifications
+// Updated endpoint for sending silent push notifications
 app.post('/api/send-push-notification', async (req, res) => {
   console.log('Request received for /api/send-push-notification');
-  const { pushToken, title, message } = req.body;
+  const { pushToken } = req.body;
 
-  // Since the message is hardcoded, we only need to check for the pushToken and title.
-  if (!pushToken || !title || !message) {
-    return res.status(400).json({ error: 'Missing pushToken, title, or message' });
+  if (!pushToken) {
+    return res.status(400).json({ error: 'Missing pushToken' });
   }
 
-  // Construct the push notification payload for Expo.
-  // The 'body' is intentionally empty to trigger the background task without a visible notification.
+  // Construct a silent push notification payload.
   // The 'data' payload will be passed to your background task handler.
   const notification = {
     to: pushToken,
-    title: title,
-    body: message, // You can use the message here for a visible notification if desired.
-    sound: 'default',
-    // Add the channelId to ensure the notification is displayed on Android
-    // This channelId must match the one defined in your app's code (e.g., in About.tsx)
+    // Note: 'title' and 'body' are removed to make this a silent notification on Android
+    // The data payload is what will be passed to the background task
+    data: {
+      source: 'vercel-api',
+      message: 'This is a background task message.',
+      important: true,
+      contentAvailable: 1 // Crucial for iOS background tasks
+    },
+    // The channelId is still required for Android devices to handle the notification
     channelId: 'default',
-    data: { someData: 'goes here', anotherField: 'hello' },
-    contentAvailable: 1, // This is crucial for triggering background tasks
   };
 
   try {
