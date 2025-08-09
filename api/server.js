@@ -47,7 +47,7 @@ app.post('/api/send-push-notification', async (req, res) => {
   const notification = {
     to: pushToken,
     title: title,
-    body: "Hello app user, how was the day going?", // <-- The updated hardcoded message is placed here
+    body: "Hello app user, how was the day going..", // <-- The updated hardcoded message is placed here
     sound: 'default',
     data: { someData: 'goes here' },
   };
