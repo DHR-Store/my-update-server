@@ -14,7 +14,7 @@ let pushTokens = new Set();
 const releases = [
   {
     version: "3.2.6",
-    releaseNotes: "Critical bug fixes and new features like add new background notification added by Gojo s",
+    releaseNotes: "Critical bug fixes and new features like add new background notification added by Gojo sat",
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.7.apk",
     publishedAt: "2025-08-10T12:00:00Z"
