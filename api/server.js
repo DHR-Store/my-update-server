@@ -6,12 +6,13 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Hardcoded release data for demonstration purposes.
+// Hardcoded push token (for demo purposes) and release data
+let pushToken = '';
+
 const releases = [
   {
-    version: "3.2.7",
+    version: "3.2.6",
     releaseNotes: "Exciting new features!\\n- Added dark mode support\\n- Improved performance for large lists",
-    // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
     publishedAt: "2025-08-06T12:00:00Z"
@@ -25,59 +26,73 @@ const releases = [
   }
 ];
 
+// Add a root endpoint to prevent 404 errors on the base URL
 app.get('/', (req, res) => {
   res.send('<h1>Welcome to the Update API!</h1><p>Please use the /api/latest-release or /api/send-push-notification endpoints.</p>');
 });
 
-app.get('/api/latest-release', (req, res) => {
-  console.log('Request received for /api/latest-release');
-  if (releases.length > 0) {
-    res.json(releases[0]);
+// Endpoint to receive and save the push token from the mobile app
+app.post('/api/save-token', (req, res) => {
+  const { token } = req.body;
+  if (token) {
+    pushToken = token;
+    console.log('Received and saved push token:', pushToken);
+    res.status(200).json({ success: true, message: 'Push token saved.' });
   } else {
-    res.status(404).json({ error: 'No releases found' });
+    res.status(400).json({ success: false, message: 'No push token provided.' });
   }
 });
 
-// Updated endpoint for sending silent or standard push notifications
+// Endpoint to check for the latest app release
+app.get('/api/latest-release', (req, res) => {
+  console.log('Request received for /api/latest-release');
+  if (releases.length > 0) {
+    // We send the latest release object, which is at index 0
+    res.status(200).json(releases[0]);
+  } else {
+    res.status(404).json({ message: 'No releases found.' });
+  }
+});
+
+// Endpoint to send a push notification
 app.post('/api/send-push-notification', async (req, res) => {
-  console.log('Request received for /api/send-push-notification');
-  // Destructure the request body, including the new 'isSilent' flag
-  const { pushToken, isSilent, title, body } = req.body;
+  const { type, title, body, downloadUrl, fileName } = req.body;
 
   if (!pushToken) {
-    return res.status(400).json({ error: 'Missing pushToken' });
+    return res.status(400).json({ error: 'No push token found. Please open the app to register.' });
   }
 
-  let notification = {
-    to: pushToken,
-    data: {
-      source: 'vercel-api',
-      message: 'This is a background task messajgey.',
-      important: true,
-      contentAvailable: 1 // Crucial for iOS background tasks
-    },
-    // The channelId is still required for Android devices to handle the notification
-    channelId: 'default',
-  };
-
-  // If the notification is NOT silent, add the title and body
-  if (isSilent !== true) {
-    if (!title || !body) {
-      return res.status(400).json({ error: 'Missing title or body for non-silent notification' });
-    }
+  // Build the notification object based on the type
+  let notification;
+  if (type === 'update') {
     notification = {
-      ...notification, // Spread the existing notification properties
-      title: title,
-      body: body,
-      sound: 'default'
+      to: pushToken,
+      title: title || 'New App Update Available!',
+      body: body || 'Tap to download and install the latest version.',
+      sound: 'default',
+      channelId: 'default',
+      data: {
+        type: 'update',
+        downloadUrl: downloadUrl || releases[0].downloadUrl,
+        fileName: fileName || releases[0].fileName,
+      },
     };
-    // Also, add the title and body to the 'data' payload for the background task to use
-    notification.data.title = title;
-    notification.data.body = body;
+  } else { // 'message' or any other type
+    notification = {
+      to: pushToken,
+      title: title || 'New Message',
+      body: body || 'You have a new notification.',
+      sound: 'default',
+      channelId: 'default',
+      data: {
+        type: 'message',
+        source: 'vercel-api',
+        message: 'This is a background task message.',
+        important: true,
+        contentAvailable: 1, // Crucial for iOS background tasks
+      },
+    };
   }
-  
-  // Log the final notification payload for debugging
-  console.log('Sending notification:', JSON.stringify(notification, null, 2));
 
   try {
     const expoResponse = await fetch('https://exp.host/--/api/v2/push/send', {
@@ -106,7 +121,8 @@ app.post('/api/send-push-notification', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Start the server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
