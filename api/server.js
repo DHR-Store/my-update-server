@@ -52,7 +52,7 @@ app.post('/api/send-push-notification', async (req, res) => {
     to: pushToken,
     data: {
       source: 'vercel-api',
-      message: 'This is a background task messagey.',
+      message: 'This is a background task messajgey.',
       important: true,
       contentAvailable: 1 // Crucial for iOS background tasks
     },
