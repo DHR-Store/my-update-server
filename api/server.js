@@ -88,7 +88,7 @@ app.post('/api/send-push-notification', async (req, res) => {
       notification = {
         to: token,
         title: title || 'New Message',
-        body: body || 'You have a new notification.',
+        body: body || 'You have a newly notification.',
         sound: 'default',
         channelId: 'default',
         data: {
