@@ -114,7 +114,7 @@ app.post('/api/send-push-notification', async (req, res) => {
         data: {
           type: 'message',
           source: 'vercel-api',
-          message: 'This is a background tasks message.',
+          message: 'This is a background tasksy message.',
           important: true,
           contentAvailable: 1, // Crucial for iOS background tasks
         },
