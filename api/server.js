@@ -14,7 +14,7 @@ let pushTokens = new Set();
 const releases = [
   {
     version: "3.2.7",
-    releaseNotes: "Critical bug fixes and new features like add new background notification added by Gojo satoru",
+    releaseNotes: "Critical bug fixes and new features like add new background notification added by Gojo sat",
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.7.apk",
     publishedAt: "2025-08-11T00:00:00Z"
@@ -111,7 +111,9 @@ app.post('/api/send-push-notification', async (req, res) => {
         contentAvailable: true,
       };
     } else if (type === 'background-notification') {
-        // This is a new type for background notifications
+        // This is a new type for background notifications.
+        // This is a silent push notification; it will not show a visible notification on its own.
+        // It's meant to trigger the TaskManager task in your mobile app, which then shows a local notification.
         notification = {
           to: token,
           data: {
