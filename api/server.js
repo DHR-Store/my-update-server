@@ -75,7 +75,7 @@ app.post('/api/send-push-notification', async (req, res) => {
       notification = {
         to: token,
         title: title || 'New App Update Available!',
-        body: body || 'Tap to download and install the latest version.',
+        body: body || 'Tap to download and install the latest oversion.',
         sound: 'default',
         channelId: 'default',
         data: {
