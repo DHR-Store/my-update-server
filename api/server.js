@@ -53,7 +53,7 @@ app.post('/api/send-push-notification', async (req, res) => {
     // The data payload is what will be passed to the background task
     data: {
       source: 'vercel-api',
-      message: 'This is a background task messagke.',
+      message: 'This is a background task messagkk.',
       important: true,
       contentAvailable: 1 // Crucial for iOS background tasks
     },
