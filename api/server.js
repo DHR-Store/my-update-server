@@ -12,7 +12,7 @@ let pushTokens = [];
 const releases = [
   {
     version: "3.2.6",
-    releaseNotes: "Critical bug fixes and new features!\\n- Implemented real-time chat\\n- Improved security protocols",
+    releaseNotes: "Critical bug fixes and new features! new background notification added by Gojo",
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.7.apk",
     publishedAt: "2025-08-10T12:00:00Z"
@@ -75,7 +75,7 @@ app.post('/api/send-push-notification', async (req, res) => {
       notification = {
         to: token,
         title: title || 'New App Update Available!',
-        body: body || 'Tap to download and install the latest oversion.',
+        body: body || 'Tap to download and install thei latest oversion.',
         sound: 'default',
         channelId: 'default',
         data: {
