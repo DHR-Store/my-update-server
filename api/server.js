@@ -9,6 +9,8 @@ app.use(express.json());
 // Use an array to store multiple push tokens
 let pushTokens = [];
 
+// Hardcoded release data for demonstration purposes.
+// This should be the same as your app's releases.
 const releases = [
   {
     version: "3.2.6",
@@ -67,15 +69,32 @@ app.post('/api/send-push-notification', async (req, res) => {
     return res.status(400).json({ error: 'No push tokens found. Please open the app on a device to register.' });
   }
 
-  // Build the notification object based on the type
   const messages = [];
   pushTokens.forEach(token => {
     let notification;
-    if (type === 'update') {
+    
+    // --- NEW: Added a 'silent-update' type for background notifications ---
+    if (type === 'silent-update') {
+      // This is a data-only payload that won't show a visible notification,
+      // but will trigger the background task in the app.
+      notification = {
+        to: token,
+        // No title, body, or sound fields for a silent notification
+        data: {
+          type: 'silent-update',
+          downloadUrl: downloadUrl || releases[0].downloadUrl,
+          fileName: fileName || releases[0].fileName,
+          // contentAvailable is crucial for iOS background tasks
+          contentAvailable: 1,
+        },
+        channelId: 'default',
+      };
+    } else if (type === 'update') {
+      // This is a visible, foreground notification for an update.
       notification = {
         to: token,
         title: title || 'New App Update Available!',
-        body: body || 'Tap to download and install thei latest oversion.',
+        body: body || 'Tap to download and install the latest version.',
         sound: 'default',
         channelId: 'default',
         data: {
@@ -85,10 +104,11 @@ app.post('/api/send-push-notification', async (req, res) => {
         },
       };
     } else { // 'message' or any other type
+      // This is a visible notification for a generic message.
       notification = {
         to: token,
         title: title || 'New Message',
-        body: body || 'You have a newly notification.',
+        body: body || 'You have a new notification.',
         sound: 'default',
         channelId: 'default',
         data: {
