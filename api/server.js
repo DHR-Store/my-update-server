@@ -9,8 +9,8 @@ app.use(express.json());
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.2.6",
-    releaseNotes: "Exciting new features!\\n- Added dark mode support\\n- Improved performance for large lists",
+    version: "3.2.7",
+    releaseNotes: "Exciting new features!\n- Added dark mode support\n- Improved performance for large lists",
     // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
