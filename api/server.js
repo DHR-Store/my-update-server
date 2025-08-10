@@ -3,6 +3,7 @@
 const express = require('express');
 const app = express();
 
+// Middleware to parse JSON bodies
 app.use(express.json());
 
 // Hardcoded release data for demonstration purposes.
@@ -10,6 +11,7 @@ const releases = [
   {
     version: "3.2.6",
     releaseNotes: "Exciting new features!\\n- Added dark mode support\\n- Improved performance for large lists",
+    // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
     publishedAt: "2025-08-06T12:00:00Z"
@@ -36,30 +38,46 @@ app.get('/api/latest-release', (req, res) => {
   }
 });
 
-// Updated endpoint for sending silent push notifications
+// Updated endpoint for sending silent or standard push notifications
 app.post('/api/send-push-notification', async (req, res) => {
   console.log('Request received for /api/send-push-notification');
-  const { pushToken } = req.body;
+  // Destructure the request body, including the new 'isSilent' flag
+  const { pushToken, isSilent, title, body } = req.body;
 
   if (!pushToken) {
     return res.status(400).json({ error: 'Missing pushToken' });
   }
 
-  // Construct a silent push notification payload.
-  // The 'data' payload will be passed to your background task handler.
-  const notification = {
+  let notification = {
     to: pushToken,
-    // Note: 'title' and 'body' are removed to make this a silent notification on Android
-    // The data payload is what will be passed to the background task
     data: {
       source: 'vercel-api',
-      message: 'This is a background task messagkk.',
+      message: 'This is a background task message.',
       important: true,
       contentAvailable: 1 // Crucial for iOS background tasks
     },
     // The channelId is still required for Android devices to handle the notification
     channelId: 'default',
   };
+
+  // If the notification is NOT silent, add the title and body
+  if (isSilent !== true) {
+    if (!title || !body) {
+      return res.status(400).json({ error: 'Missing title or body for non-silent notification' });
+    }
+    notification = {
+      ...notification, // Spread the existing notification properties
+      title: title,
+      body: body,
+      sound: 'default'
+    };
+    // Also, add the title and body to the 'data' payload for the background task to use
+    notification.data.title = title;
+    notification.data.body = body;
+  }
+  
+  // Log the final notification payload for debugging
+  console.log('Sending notification:', JSON.stringify(notification, null, 2));
 
   try {
     const expoResponse = await fetch('https://exp.host/--/api/v2/push/send', {
