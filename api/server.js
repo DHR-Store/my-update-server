@@ -6,23 +6,23 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Hardcoded push token (for demo purposes) and release data
-let pushToken = '';
+// Use an array to store multiple push tokens
+let pushTokens = [];
 
 const releases = [
+  {
+    version: "3.2.7",
+    releaseNotes: "Critical bug fixes and new features!\\n- Implemented real-time chat\\n- Improved security protocols",
+    downloadUrl: "https://dhr-store.vercel.app/app2.html",
+    fileName: "your-app-v3.2.7.apk",
+    publishedAt: "2025-08-10T12:00:00Z"
+  },
   {
     version: "3.2.6",
     releaseNotes: "Exciting new features!\\n- Added dark mode support\\n- Improved performance for large lists",
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
-    fileName: "your-app-v3.2.5.apk",
+    fileName: "your-app-v3.2.6.apk",
     publishedAt: "2025-08-06T12:00:00Z"
-  },
-  {
-    version: "1.0.1",
-    releaseNotes: "Bug fixes and performance improvements.\\n- Fixed login issue\\n- Improved UI responsiveness",
-    downloadUrl: "https://your-vercel-app-domain.vercel.app/downloads/your-app-v1.0.1.apk",
-    fileName: "your-app-v1.0.1.apk",
-    publishedAt: "2025-08-01T10:00:00Z"
   }
 ];
 
@@ -35,8 +35,13 @@ app.get('/', (req, res) => {
 app.post('/api/save-token', (req, res) => {
   const { token } = req.body;
   if (token) {
-    pushToken = token;
-    console.log('Received and saved push token:', pushToken);
+    // Only add the token if it's not already in the list
+    if (!pushTokens.includes(token)) {
+      pushTokens.push(token);
+      console.log('Received and saved push token:', token);
+    } else {
+      console.log('Push token already exists, skipping:', token);
+    }
     res.status(200).json({ success: true, message: 'Push token saved.' });
   } else {
     res.status(400).json({ success: false, message: 'No push token provided.' });
@@ -54,45 +59,49 @@ app.get('/api/latest-release', (req, res) => {
   }
 });
 
-// Endpoint to send a push notification
+// Endpoint to send a push notification to ALL registered tokens
 app.post('/api/send-push-notification', async (req, res) => {
   const { type, title, body, downloadUrl, fileName } = req.body;
 
-  if (!pushToken) {
-    return res.status(400).json({ error: 'No push token found. Please open the app to register.' });
+  if (pushTokens.length === 0) {
+    return res.status(400).json({ error: 'No push tokens found. Please open the app on a device to register.' });
   }
 
   // Build the notification object based on the type
-  let notification;
-  if (type === 'update') {
-    notification = {
-      to: pushToken,
-      title: title || 'New App Update Available!',
-      body: body || 'Tap to download and install the latest version.',
-      sound: 'default',
-      channelId: 'default',
-      data: {
-        type: 'update',
-        downloadUrl: downloadUrl || releases[0].downloadUrl,
-        fileName: fileName || releases[0].fileName,
-      },
-    };
-  } else { // 'message' or any other type
-    notification = {
-      to: pushToken,
-      title: title || 'New Message',
-      body: body || 'You have a new notification.',
-      sound: 'default',
-      channelId: 'default',
-      data: {
-        type: 'message',
-        source: 'vercel-api',
-        message: 'This is a background task message.',
-        important: true,
-        contentAvailable: 1, // Crucial for iOS background tasks
-      },
-    };
-  }
+  const messages = [];
+  pushTokens.forEach(token => {
+    let notification;
+    if (type === 'update') {
+      notification = {
+        to: token,
+        title: title || 'New App Update Available!',
+        body: body || 'Tap to download and install the latest version.',
+        sound: 'default',
+        channelId: 'default',
+        data: {
+          type: 'update',
+          downloadUrl: downloadUrl || releases[0].downloadUrl,
+          fileName: fileName || releases[0].fileName,
+        },
+      };
+    } else { // 'message' or any other type
+      notification = {
+        to: token,
+        title: title || 'New Message',
+        body: body || 'You have a new notification.',
+        sound: 'default',
+        channelId: 'default',
+        data: {
+          type: 'message',
+          source: 'vercel-api',
+          message: 'This is a background task message.',
+          important: true,
+          contentAvailable: 1, // Crucial for iOS background tasks
+        },
+      };
+    }
+    messages.push(notification);
+  });
 
   try {
     const expoResponse = await fetch('https://exp.host/--/api/v2/push/send', {
@@ -102,7 +111,7 @@ app.post('/api/send-push-notification', async (req, res) => {
         'Accept-encoding': 'gzip, deflate',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(notification),
+      body: JSON.stringify(messages),
     });
 
     const expoReceipt = await expoResponse.json();
