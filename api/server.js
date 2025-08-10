@@ -72,7 +72,7 @@ app.post('/api/send-push-notification', async (req, res) => {
   const messages = [];
   pushTokens.forEach(token => {
     let notification;
-    
+
     // Check if the push token is valid before creating a message
     if (!token) {
       console.warn('Skipping invalid push token:', token);
@@ -91,7 +91,7 @@ app.post('/api/send-push-notification', async (req, res) => {
           fileName: fileName || releases[0].fileName,
         },
         // contentAvailable is crucial for iOS background tasks
-        contentAvailable: true, 
+        contentAvailable: true,
       };
     } else if (type === 'background-message') {
       // This is a data-only payload to trigger a background task with a message.
