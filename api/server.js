@@ -11,14 +11,14 @@ let pushTokens = [];
 
 const releases = [
   {
-    version: "3.2.7",
+    version: "3.2.6",
     releaseNotes: "Critical bug fixes and new features!\\n- Implemented real-time chat\\n- Improved security protocols",
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.7.apk",
     publishedAt: "2025-08-10T12:00:00Z"
   },
   {
-    version: "3.2.6",
+    version: "3.2.5",
     releaseNotes: "Exciting new features!\\n- Added dark mode support\\n- Improved performance for large lists",
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.6.apk",
