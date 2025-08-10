@@ -1,4 +1,4 @@
-// my-update-server/server.js
+// server.js
 
 const express = require('express');
 const app = express();
@@ -6,8 +6,8 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-// Use an array to store multiple push tokens
-let pushTokens = [];
+// Use a Set to store unique push tokens to avoid duplicates
+let pushTokens = new Set();
 
 // Hardcoded release data for demonstration purposes.
 // This should be the same as your app's releases.
@@ -37,9 +37,9 @@ app.get('/', (req, res) => {
 app.post('/api/save-token', (req, res) => {
   const { token } = req.body;
   if (token) {
-    // Only add the token if it's not already in the list
-    if (!pushTokens.includes(token)) {
-      pushTokens.push(token);
+    // Add the token to the Set to ensure it's unique
+    if (!pushTokens.has(token)) {
+      pushTokens.add(token);
       console.log('Received and saved push token:', token);
     } else {
       console.log('Push token already exists, skipping:', token);
@@ -65,7 +65,7 @@ app.get('/api/latest-release', (req, res) => {
 app.post('/api/send-push-notification', async (req, res) => {
   const { type, title, body, downloadUrl, fileName } = req.body;
 
-  if (pushTokens.length === 0) {
+  if (pushTokens.size === 0) {
     return res.status(400).json({ error: 'No push tokens found. Please open the app on a device to register.' });
   }
 
@@ -73,10 +73,15 @@ app.post('/api/send-push-notification', async (req, res) => {
   pushTokens.forEach(token => {
     let notification;
     
-    // --- NEW: Added a 'silent-update' type for background notifications ---
+    // Check if the push token is valid before creating a message
+    if (!token) {
+      console.warn('Skipping invalid push token:', token);
+      return; // Continue to the next token
+    }
+
     if (type === 'silent-update') {
-      // This is a data-only payload that won't show a visible notification,
-      // but will trigger the background task in the app.
+      // This is a data-only payload that won't show a visible notification.
+      // It triggers a background task in the app.
       notification = {
         to: token,
         // No title, body, or sound fields for a silent notification
@@ -84,10 +89,19 @@ app.post('/api/send-push-notification', async (req, res) => {
           type: 'silent-update',
           downloadUrl: downloadUrl || releases[0].downloadUrl,
           fileName: fileName || releases[0].fileName,
-          // contentAvailable is crucial for iOS background tasks
-          contentAvailable: 1,
         },
-        channelId: 'default',
+        // contentAvailable is crucial for iOS background tasks
+        contentAvailable: true, 
+      };
+    } else if (type === 'background-message') {
+      // This is a data-only payload to trigger a background task with a message.
+      notification = {
+        to: token,
+        data: {
+          type: 'background-message',
+          message: body || 'You have a new background message.',
+        },
+        contentAvailable: true,
       };
     } else if (type === 'update') {
       // This is a visible, foreground notification for an update.
@@ -96,27 +110,23 @@ app.post('/api/send-push-notification', async (req, res) => {
         title: title || 'New App Update Available!',
         body: body || 'Tap to download and install the latest version.',
         sound: 'default',
-        channelId: 'default',
         data: {
           type: 'update',
           downloadUrl: downloadUrl || releases[0].downloadUrl,
           fileName: fileName || releases[0].fileName,
         },
       };
-    } else { // 'message' or any other type
+    } else { // 'message' or any other type (default)
       // This is a visible notification for a generic message.
       notification = {
         to: token,
         title: title || 'New Message',
         body: body || 'You have a new notification.',
         sound: 'default',
-        channelId: 'default',
         data: {
           type: 'message',
           source: 'vercel-api',
-          message: 'This is a background tasksy messagey.',
-          important: true,
-          contentAvailable: 1, // Crucial for iOS background tasks
+          message: 'This is a regular message.',
         },
       };
     }
