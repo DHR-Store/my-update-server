@@ -11,7 +11,7 @@ let pushTokens = new Set();
 // This should be the same as your app's releases.
 const releases = [
   {
-    version: "3.2.6",
+    version: "3.2.5",
     releaseNotes: "Critical bug fixes and new features like add new background notification added by gojo.",
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.7.apk",
@@ -117,7 +117,7 @@ app.post('/api/send-push-notification', async (req, res) => {
           data: {
             type: 'background-notification',
             title: title || 'New Background Notification',
-            body: body || 'You have received a new notification i.l',
+            body: body || 'You have received a new notification l',
           },
           contentAvailable: true,
         };
