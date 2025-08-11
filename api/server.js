@@ -10,7 +10,7 @@ let pushTokens = new Set();
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.2.6",
+    version: "3.2.5",
     releaseNotes: "Critical bug fixes and new features like add new background notification added by goJ9",
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.7.apk",
