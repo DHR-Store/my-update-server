@@ -88,7 +88,7 @@ app.post('/api/send-push-notification', async (req, res) => {
       notification = {
         to: token,
         title: title || 'Hello Users',
-        body: body || 'You have received a new message hello.',
+        body: body || 'You have received a new message helloh.',
         sound: 'default', // Add a sound to make it a visible notification
         data: {
           type: 'visible-background-notification',
@@ -103,7 +103,7 @@ app.post('/api/send-push-notification', async (req, res) => {
         data: {
           type: 'background-notification',
           title: title || 'New Background Notification',
-          body: body || 'You have received a new background update.',
+          body: body || 'You have received a new background updathe.',
         },
         contentAvailable: true, // Crucial for iOS background tasks
       };
