@@ -117,7 +117,7 @@ app.post('/api/send-push-notification', async (req, res) => {
           data: {
             type: 'background-notification',
             title: title || 'New Background Notification',
-            body: body || 'You have received a new notification i',
+            body: body || 'You have received a new notification i.',
           },
           contentAvailable: true,
         };
