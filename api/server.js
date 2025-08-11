@@ -104,7 +104,7 @@ app.post('/api/send-push-notification', async (req, res) => {
         to: token,
         data: {
           type: 'background-message',
-          message: body || 'You have a new background message.',
+          message: body || 'You have a new background messagei',
         },
         contentAvailable: true,
       };
