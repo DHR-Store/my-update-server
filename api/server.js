@@ -94,6 +94,8 @@ app.post('/api/send-push-notification', async (req, res) => {
           type: 'visible-background-notification',
         },
       };
+      // Log the payload to the console for this specific type
+      console.log('Sending a visible background notification:', notification);
     } else if (type === 'background-notification') {
       // This is a silent push to trigger a background task in your mobile app
       notification = {
@@ -105,6 +107,8 @@ app.post('/api/send-push-notification', async (req, res) => {
         },
         contentAvailable: true, // Crucial for iOS background tasks
       };
+      // Log the payload to the console for this specific type
+      console.log('Sending a silent background notification:', notification);
     } else if (type === 'update') {
       // A visible notification for an app update
       notification = {
@@ -118,6 +122,7 @@ app.post('/api/send-push-notification', async (req, res) => {
           fileName: fileName || releases[0].fileName,
         },
       };
+      console.log('Sending an update notification:', notification);
     } else { // 'message' or any other type (default)
       notification = {
         to: token,
@@ -129,6 +134,7 @@ app.post('/api/send-push-notification', async (req, res) => {
           source: 'vercel-api',
         },
       };
+      console.log('Sending a default message notification:', notification);
     }
     messages.push(notification);
   });
