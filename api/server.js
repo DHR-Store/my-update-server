@@ -11,7 +11,7 @@ let pushTokens = new Set();
 const releases = [
   {
     version: "3.2.6",
-    releaseNotes: "Critical bug fixes and new features like add new background notification added by gojom",
+    releaseNotes: "Critical bug fixes and new features like add new background notification added by gojo sat",
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.7.apk",
     publishedAt: "2025-08-11T00:00:00Z"
@@ -88,7 +88,7 @@ app.post('/api/send-push-notification', async (req, res) => {
       notification = {
         to: token,
         title: title || 'Hello Users',
-        body: body || 'You have received a new message.',
+        body: body || 'You have received a new message hello.',
         sound: 'default', // Add a sound to make it a visible notification
         data: {
           type: 'visible-background-notification',
