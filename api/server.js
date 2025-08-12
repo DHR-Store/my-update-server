@@ -71,7 +71,7 @@ app.post('/api/send-fcm-notification', async (req, res) => {
     // This is a data-only message, which is required for the background handler
     data: {
       title: title,
-      body: body,
+      body: hello,
     },
     // Specify the token to send to. For a real app, you would send to all registered tokens.
     to: [...fcmTokens][0],
