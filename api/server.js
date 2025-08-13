@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 const releases = [
   {
     version: "3.2.6",
-    releaseNotes: "Adding search suggestions features with genre\n -changed package\n -App New Name "Vega-Next"\n- full support on TV\n- Improved performance for large lists\n -Gojo",
+    releaseNotes: "Adding search suggestions features with genre\n -changed package\n -App New Name 'Vega-Next'\n- full support on TV\n- Improved performance for large lists\n -Gojo",
     // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
