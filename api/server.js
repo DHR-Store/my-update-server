@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.3.0",
+    version: "3.2.9",
     releaseNotes: "fix server issues\n -add UI for user online analyses\n -smoothly app handle\n- TVplayer bug fix\n- Coming Soon VegaMusic in Next Update\n -😁😁💖Thanks🤞🤞\n -byGojo",
     // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
