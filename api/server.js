@@ -132,6 +132,103 @@ app.post('/api/send-text-notification', async (req, res) => {
   }
 });
 
+// NEW ENDPOINT for sending a general, visible notification without an update
+app.post('/api/send-general-notification', async (req, res) => {
+  const { pushToken, title, message } = req.body;
+
+  if (!pushToken || !title || !message) {
+    return res.status(400).json({ error: 'Missing pushToken, title, or message' });
+  }
+
+  // This payload is a standard visible push notification
+  const payload = {
+    to: pushToken,
+    title: title,
+    body: message,
+    sound: 'default',
+    channelId: 'default',
+    data: {
+      type: 'general', // A general type for your client-side handler
+      title: title,
+      message: message,
+    },
+  };
+
+  try {
+    const expoResponse = await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const expoReceipt = await expoResponse.json();
+    console.log('Expo Push API Response:', expoReceipt);
+
+    if (expoReceipt.data && expoReceipt.data[0] && expoReceipt.data[0].status === 'error') {
+      console.error('Error sending general notification:', expoReceipt.data[0].details);
+      return res.status(500).json({ error: 'Failed to send general notification via Expo', details: expoReceipt.data[0].details });
+    }
+
+    res.status(200).json({ success: true, receipt: expoReceipt });
+
+  } catch (error) {
+    console.error('Error in /api/send-general-notification endpoint:', error);
+    res.status(500).json({ error: 'An unexpected error occurred while sending the general notification.' });
+  }
+});
+
+// NEW ENDPOINT to send a one-time provider notification
+app.post('/api/notify-new-provider', async (req, res) => {
+  const { pushToken } = req.body;
+
+  if (!pushToken) {
+    return res.status(400).json({ error: 'Missing pushToken' });
+  }
+
+  const payload = {
+    to: pushToken,
+    title: "New Provider Added!",
+    body: "We've added a new provider: HDmovies2. Enjoy new content!",
+    sound: 'default',
+    channelId: 'default',
+    data: {
+      type: 'provider_update',
+      title: "New Provider Added!",
+      message: "We've added a new provider: HDmovies2. Enjoy new content!",
+      provider: "HDmovies2"
+    },
+  };
+
+  try {
+    const expoResponse = await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const expoReceipt = await expoResponse.json();
+    console.log('Expo Push API Response:', expoReceipt);
+
+    if (expoReceipt.data && expoReceipt.data[0] && expoReceipt.data[0].status === 'error') {
+      console.error('Error sending provider notification:', expoReceipt.data[0].details);
+      return res.status(500).json({ error: 'Failed to send provider notification via Expo', details: expoReceipt.data[0].details });
+    }
+
+    res.status(200).json({ success: true, receipt: expoReceipt });
+
+  } catch (error) {
+    console.error('Error in /api/notify-new-provider endpoint:', error);
+    res.status(500).json({ error: 'An unexpected error occurred while sending the provider notification.' });
+  }
+});
 
 // Start the server
 const PORT = process.env.PORT || 3000;
