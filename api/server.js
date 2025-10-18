@@ -14,15 +14,15 @@ app.get('/', (req, res) => {
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.3.3",
-    releaseNotes: "sorry for ping\n +return download feature on the app u can download on the app with paush resume\n +vega next own chat feature added can suggest feature and error go to setting error page💁‍♂️💁‍♂😁📢📢\n + Auto push for when provider added\n + Cfworker 1.0 fix\n -😁😁💖Thanks🤞🤞\n -byGojo",
+    version: "3.3.4",
+    releaseNotes: "sorry for ping\n many bugs fixed\n download page added episode text\n + search error still appear\n -😁😁💖Thanks🤞🤞",
     // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
     publishedAt: "2025-08-06T12:00:00Z"
   },
   {
-    version: "3.3.0",
+    version: "3.3.3",
     releaseNotes: "Bug fixes and performance improvements.\n- Fixed login issue\n- Improved UI responsiveness",
     downloadUrl: "https://your-vercel-app-domain.vercel.app/downloads/your-app-v1.0.1.apk",
     fileName: "your-app-v1.0.1.apk",
