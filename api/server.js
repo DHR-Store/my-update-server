@@ -14,15 +14,15 @@ app.get('/', (req, res) => {
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.3.9",
-    releaseNotes: "sorry for ping\n Watch Together added\n + E2PP chat feature added\n -tap auto forward added\n -😁😁💖Thanks🤞🤞",
+    version: "3.4.0",
+    releaseNotes: "sorry for ping\n Watch Together added \n + E2PP chat feature added Protected by Password\n -tap auto forward added\n auto skip hubcloud added for smooth play\n result page fixed\n Vega stream fix\n -😁😁💖Thanks🤞🤞",
     // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
     publishedAt: "2025-08-06T12:00:00Z"
   },
   {
-    version: "3.3.8",
+    version: "3.3.9",
     releaseNotes: "Bug fixes and performance improvements.\n- Fixed login issue\n- Improved UI responsiveness",
     downloadUrl: "https://your-vercel-app-domain.vercel.app/downloads/your-app-v1.0.1.apk",
     fileName: "your-app-v1.0.1.apk",
