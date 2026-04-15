@@ -14,15 +14,15 @@ app.get('/', (req, res) => {
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.5.4",
-    releaseNotes: "\n - remove buffering animation \n +ndk54 more smoothly\n +player fix \n all extra features add\n login system added \n + better smoother player experience \n background native downloader and zip downloader added  \n some UI changes \n + smooth video player experience \n + stable version 3.4.6\n -😁😁💖Thanks🤞🤞",
+    version: "3.5.5",
+    releaseNotes: "\n +Added player episodes efficiency  \n+ added community page login based\n +in setting have community option  \n fix home page architecture \n + stable version v3.5.5\n -😁😁💖Thanks🤞🤞",
     // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
     publishedAt: "2025-08-06T12:00:00Z"
   },
   {
-    version: "3.5.3",
+    version: "3.5.4",
     releaseNotes: "Bug fixes and performance improvements.\n- Fixed login issue\n- Improved UI responsiveness",
     downloadUrl: "https://your-vercel-app-domain.vercel.app/downloads/your-app-v1.0.1.apk",
     fileName: "your-app-v1.0.1.apk",
