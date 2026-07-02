@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 const releases = [
   {
     version: "3.6.0",
-    releaseNotes: "\n+ fix minor bugs \n+ added AI suggestion feature in search bar\n+ added 200% boost volume \n+ fix external subtitle\n+ fix HDR mode\n+ added resume and pause feature for 2 day exp\n+ Note uninstall previous version and install 5.9\n+ added cf worker fix \n + stable version v3.5.9\n -😁😁💖Thanks🤞🤞",
+    releaseNotes: "\n+ fix minor bugs \n+ added AI suggestion feature in search bar\n+ added 200% boost volume \n+ fix external subtitle\n+ fix HDR mode\n+ added resume and pause feature for 2 day exp\n+ Note uninstall previous version and install 6.0\n+ added cf worker fix \n + stable version v3.6.0\n -😁😁💖Thanks🤞🤞",
     // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
