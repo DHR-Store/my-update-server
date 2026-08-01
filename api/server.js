@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.6.9",
+    version: "3.6.8",
     releaseNotes: "\n +yt downloader and adblokker added \n applogo icon change \n provider checker fixx\n New arch comming install for download package feature\n after that app auto install update soon stable 6.7 comming \n -😁😁💖Thanks🤞🤞",
     // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
