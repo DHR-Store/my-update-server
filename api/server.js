@@ -14,15 +14,15 @@ app.get('/', (req, res) => {
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.6.8",
-    releaseNotes: "\n applogo icon change \n provider checker fixx\n New arch comming install for download package feature\n after that app auto install update soon stable 6.7 comming \n -😁😁💖Thanks🤞🤞",
+    version: "3.6.9",
+    releaseNotes: "\n +yt downloader and adblokker added \n applogo icon change \n provider checker fixx\n New arch comming install for download package feature\n after that app auto install update soon stable 6.7 comming \n -😁😁💖Thanks🤞🤞",
     // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
     fileName: "your-app-v3.2.5.apk",
     publishedAt: "2025-08-06T12:00:00Z"
   },
   {
-    version: "3.6.6",
+    version: "3.6.8",
     releaseNotes: "Bug fixes and performance improvements.\n- Fixed login issue\n- Improved UI responsiveness",
     downloadUrl: "https://your-vercel-app-domain.vercel.app/downloads/your-app-v1.0.1.apk",
     fileName: "your-app-v1.0.1.apk",
