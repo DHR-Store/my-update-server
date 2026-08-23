@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 // Hardcoded release data for demonstration purposes.
 const releases = [
   {
-    version: "3.7.5",
+    version: "3.7.6",
     releaseNotes: "\n+ added intro skip button \n +subtitle text style \n +video buffer data up to 10 minutes\n +fix player setting\n +added page padding\n -😁😁💖Thanks🤞🤞",
     // The downloadUrl is now set to your webpage link to open the page on update click.
     downloadUrl: "https://dhr-store.vercel.app/app2.html",
